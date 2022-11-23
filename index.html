@@ -26,19 +26,30 @@
     <header id="header" class="p-2 text-center text-white bg-primary">
       <h1>Weather Dashboard</h1>
     </header>
-    <div class="text-center pt-4">
-      <button
-        id="fetch-button"
-        type="button"
-        class="btn btn-primary"
-        data-toggle="modal"
-        data-target="#exampleModal"
-        data-whatever="@getbootstrap"
-      >
-        Search
-      </button>
-      >>
-    </div>
+
+    <main class="container row">
+      <aside class="col-3">
+        <div class="card" id="today"></div>
+
+        <form class="form-content">
+          <h3>Search for a City:</h3>
+          <label class="sr-only" for="inlineFormInputName">City</label>
+          <input
+            type="text"
+            class="form-control"
+            id="inputName"
+            placeholder="London..."
+          />
+          <button id="fetch-button" type="submit" class="btn btn-primary">
+            Submit
+          </button>
+        </form>
+      </aside>
+      <div class="col-9 container">
+        <section id="currentWeather" class="row col-12"></section>
+        <section id="forecastWeather" class="row"></section>
+      </div>
+    </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
