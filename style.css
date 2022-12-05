@@ -1,3 +1,13 @@
 #header {
   background: linear-gradient(to right, #5959f5, rgb(8, 8, 67));
 }
+
+#currentWeather {
+  outline-style: solid;
+}
+
+#forecastWeather {
+  background-color: rgb(127, 127, 250);
+  margin: 5px;
+  margin-right: 5px;
+}

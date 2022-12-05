@@ -4,19 +4,38 @@ const currentDay = document.getElementById("today");
 const currentWeather = document.getElementById("currentWeather");
 const forecast = document.getElementById("forecastWeather");
 
+let savedCitiesArray = JSON.parse(localStorage.getItem("cityName")) || [];
+
 function getApi(input) {
   // fetch request gets a list of all the repos for the node.js organization
   const requestUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${input}&appid=9d69570cc2097eb0470c7256980f5753`;
   fetch(requestUrl)
     .then(function (res) {
+      // console.log("res looks like", res);
       return res.json();
     })
     .then(function (data) {
-      getWeather(data[0]);
+      // console.log("data looks like", data);
+      // getCurrentWeather(data[0]);
+      getForecastWeather(data[0]);
     });
 }
 
-function getWeather(location) {
+function getCurrentWeather(location) {
+  const lat = location.lat;
+  const lon = location.lon;
+  const requestUrl = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=9d69570cc2097eb0470c7256980f5753`;
+  fetch(requestUrl)
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (data) {
+      console.log("weather endpoint data", data);
+      displayWeather(data);
+    });
+}
+
+function getForecastWeather(location) {
   const lat = location.lat;
   const lon = location.lon;
   const requestUrl = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=9d69570cc2097eb0470c7256980f5753`;
@@ -25,11 +44,22 @@ function getWeather(location) {
       return res.json();
     })
     .then(function (data) {
-      console.log(data);
-      displayWeather(data);
-      displayForecast(data);
+      console.log("forecast endpoint data", data);
+      // displayForecast(data.list[4]);
     });
 }
+
+// const date = new Date(data.current.dt * 1000);
+
+// dateTime.text(
+//   "(" +
+//     (date.getMonth() + 1) +
+//     "/" +
+//     date.getDate() +
+//     "/" +
+//     date.getFullYear() +
+//     ")"
+// );
 
 function displayForecast(data) {
   console.log(data);
@@ -87,7 +117,15 @@ fetchButton.addEventListener("click", function (event) {
   event.preventDefault();
   let cityInput = inputName.value;
   getApi(cityInput);
+  saveToLocalStorage(cityInput);
 });
+
+function saveToLocalStorage(cityName) {
+  console.log("click heard!");
+  savedCitiesArray.push(cityName);
+  console.log(savedCitiesArray);
+  localStorage.setItem("cityName", JSON.stringify(savedCitiesArray));
+}
 
 // let getCity = [];
 //   const cityName = localStorage.getItem("cityName");
@@ -98,8 +136,8 @@ fetchButton.addEventListener("click", function (event) {
 
 //   localStorage.setItem("cityName", JSON.stringify(cityName));
 
-/*function renderHighScore() {
-  scoreItem = JSON.parse(localStorage.getItem("highscoreForPlayer"));
-  for (let i = 0; i < highScores.length; i++) {
-    scoreItem = document.createElement("scorediv");
-    console.log(scoreItem);*/
+/*function renderCityName() {
+  cityName = JSON.parse(localStorage.getItem("cityNameStr"));
+  for (let i = 0; i < cityName.length; i++) {
+    cityName = document.createElement("div");
+    console.log();*/
